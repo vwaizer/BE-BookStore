@@ -144,3 +144,61 @@ export const loginValidator = validator(
     ["body"]
   )
 );
+export const staffLoginValidator = validator(
+  checkSchema(
+    {
+      email: {
+        errorMessage: "Invalid email",
+        isEmail: true,
+        custom: {
+          options: async (value) => {
+            const isUserExist = await databaseProject.users.findOne({
+              email: value,role:"staff"
+            });
+
+            if (isUserExist) {
+              if(isUserExist.verifyToken == "verified"){
+                return true;
+              } 
+              else{
+                throw new Error("Email is not verified")
+              }
+              
+
+            } else {
+
+              throw new Error("Email is not registered");
+
+            }
+          },
+        },
+      },
+      password: {
+        trim: true,
+        isLength: {
+          options: { min: 8 },
+          errorMessage: "Password should be at least 8 chars",
+        },
+        custom: {
+
+          options: async (value, { req }) => {
+            let checked = false;
+            const userLogin = await databaseProject.users.findOne({
+              email: req.body.email,
+            });
+
+            checked = bcrypt.compareSync(value, userLogin.password)
+            console.log(checked);
+            if (checked == true) {
+              return true
+            }
+            else { throw new Error(" PASSWORD DOES NOT MATCH") }
+
+
+          },
+        },
+      },
+    },
+    ["body"]
+  )
+);
