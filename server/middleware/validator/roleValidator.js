@@ -61,11 +61,11 @@ export const userValidator = async (req, res, next) => {
 }
 
 export const staffValidator = async (req, res, next) => {
-  console.log("accessToken",req.body);
-  const token = req.headers?.authorization.split(" ")[1];
+  // console.log("accessToken",req.body);
+  // const token = req.headers?.authorization.split(" ")[1];
   
-  console.log(token);
-  const userUnit= await checkToken(privateKey,token);
+  // console.log(token);
+  // const userUnit= await checkToken(privateKey,token);
   
   // if(result.username== "admin"){
   //   return res.json("success")
@@ -73,12 +73,13 @@ export const staffValidator = async (req, res, next) => {
   // else{
   //   return res.json("fail")
   // }
-  console.log("userUnit",userUnit);
-  const result= await databaseProject.users.findOne({email:userUnit.email});
+  // console.log("userUnit",userUnit);
+  // const result= await databaseProject.users.findOne({email:userUnit.email});
+  const result=localStorage.getItem("staff")
   console.log(result);
   // req.userEmail=userUnit.email;
   // req.decode=result
-  if(result){
+  if(result.length>0){
     if(result.role=="staff" || result.role=="admin"){
       req.staffID=result._id.valueOf()
       return next();
