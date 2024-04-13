@@ -46,6 +46,7 @@ const getAssetInfoSub=async(publicId)=>{
       if (item.length > 0) {
         console.log("item", item);
         result.push( cloudinary.url(item, options))
+        return item
       }
     })
     console.log(imgList);
