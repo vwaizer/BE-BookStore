@@ -9,7 +9,7 @@ import { loginRoute } from "./routes/loginRoute.js";
 import { receiptRoute } from "./routes/receiptRoute.js";
 import { staffRoute } from "./routes/staffRoute.js";
 import { userRoute } from "./routes/userRoute.js";
-// import { autoSendMail } from "./mongodb/service/staffService.js";
+import { autoSendMail } from "./mongodb/service/staffService.js";
 
 const app = express();
 const port = 4000;
@@ -26,7 +26,7 @@ app.use("/staff", staffRoute);
 app.use("/", loginRoute);
 app.use("/receipt", receiptRoute);
 app.use(errorHandle);
-// setTimeout(()=>autoSendMail(),2000)
+setTimeout(()=>autoSendMail(),2000)
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

@@ -192,7 +192,7 @@ export const sendAutoMail=async(caseID)=>{
      
   }
 export const autoSendMail=async()=>{
-    const data =await databaseProject.hiredBook.find({status:"Accept"}).toArray()
+    const data =await databaseProject.hiredBook.find({status:"Đồng ý"}).toArray()
     const  caseData=data.map((item,index)=>{
         if(new Date() > item.dateOut){
             return item
