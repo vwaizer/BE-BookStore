@@ -41,15 +41,16 @@ const getAssetInfoSub=async(publicId)=>{
   };
   
   try {
+    let result=[]
     const imgList=publicId.map( (item, index) => {
       if (item.length > 0) {
         console.log("item", item);
-        return cloudinary.url(item, options);
+        result.push( cloudinary.url(item, options))
       }
     })
     console.log(imgList);
-  
-    const result = [...imgList] 
+    
+    
    
     return result
   } catch (error) {
