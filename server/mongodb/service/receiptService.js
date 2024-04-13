@@ -322,7 +322,7 @@ export const setPayment=async(req,res,next)=>{
         line_items: req.body.items.map(item => {
             return{
                 price_data:{
-                    currency:"inr",
+                    currency:"vnd",
                     product_data:{
                         name: item.name
                     },
