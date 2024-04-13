@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { Books, HiredBook, ImportedBook } from "../../schema/Schema.js";
+import { Books, HiredBook, ImportedBook,Comment } from "../../schema/Schema.js";
 import databaseProject from "../GetDataBase.js";
 import { createImageTag, getAssetInfo } from "./cloudinary.js";
 export const getDetailBook = async (req, res) => {
@@ -20,7 +20,7 @@ export const deleteBook = async (req, res) => {
   return res.json(result);
 };
 export const addBook = async (req, res,next) => {
-  const imgUrl= await getAssetInfo(req.body.book[0].images[0])
+  const imgUrl= await getAssetInfo(req.body.book[0].images)
   // const imageTag = await createImageTag(req.body.book[0].images[0], colors[0][0], colors[1][0]);
   console.log("imgTag",imgUrl);
   const formatData=req.body.book.map((item,index)=>{
@@ -69,17 +69,17 @@ export const updateBook = async (req, res) => {
 };
 export const getAllBook = (data, page) => {
   console.log(page);
-  console.log(data.length);
+ console.log(data);
   // const data = await databaseProject.book.find({}).toArray();
   if (page) {
-    const result = data.filter((item, index) => {
+    const result = data?.map((item, index) => {
       if (index >= (Number(page) - 1) * 32) {
         if (index < Number(page) * 32) {
           return item;
         }
       }
     });
-
+    console.log(result);
     return result;
   }
 
@@ -89,7 +89,7 @@ export const getAllBook = (data, page) => {
 export const getFilterBook = async (req, res, next) => {
   console.log("vao");
   const query =req.query;
- 
+ const rawData=await databaseProject.book.find({}).toArray()
   if (Object.keys(query).length > 0) {
     // if (query.publisher) {
     //   const publisher = decodeURIComponent(query.publisher);
@@ -117,22 +117,42 @@ export const getFilterBook = async (req, res, next) => {
       return res.json(getAllBook(data, query.page));
     } else {
       console.log(query);
-      let findObject = {};
+      let findObject = [];
       if (query.publisher) {
-        findObject = Object.assign({ publisher: query.publisher }, findObject);
+        findObject.push( rawData.filter((item,index)=>{
+          if(item.publisher.includes(decodeURI(query.publisher)))
+          {
+            return item
+          }
+        }))
       }
       if (query.type) {
-        findObject = Object.assign({ type: decodeURI(query.type) }, findObject);
+        findObject.push( rawData.filter((item,index)=>{
+          if(item.type.includes(decodeURI(query.type)))
+          {
+            return item
+          }
+        }))
       }
       if (query.author) {
-        findObject = Object.assign({ author: query.author }, findObject);
+        findObject.push( rawData.filter((item,index)=>{
+          if(item.author.includes(decodeURI(query.author)))
+          {
+            return item
+          }
+        }))
       }
-      if(query.startPrice){
-        findObject = Object.assign({$and:[{price:{$gte:query.startPrice}},{price:{$lte:query.endPrice}}] }, findObject);
+      if (query.name) {
+        findObject.push( rawData.filter((item,index)=>{
+          if(item.name.includes(decodeURI(query.name)))
+          {
+            return item
+          }
+        }))
       }
-      const filterData = await databaseProject.book.find(findObject).toArray();
-     
-      return res.json(getAllBook(filterData,query.page));
+
+      console.log(findObject);
+      return res.json(getAllBook(findObject[0],query.page));
     }
   } else {
     next("Missing query");
@@ -264,3 +284,38 @@ export const getField = async (req, res) => {
 
   return res.json(filedList);
 };
+export const getComment=async(req,res,next)=>{
+  const bookID=req.params.ID;
+  try {
+    const result=await databaseProject.comment.find({bookId:new ObjectId(bookID)}).toArray()
+    return res.json(result)
+  } catch (error) {
+    return next(error)
+  }
+}
+export const setComment=async(req,res,next)=>{
+ 
+  const userID=req.userID;
+  const bookID=req.params.ID;
+  console.log("id",bookID);
+  const body=new Comment({userId:userID,rate:req.body.rate,bookId:bookID});
+ 
+  console.log(body);
+  const data=await databaseProject.comment.findOne({bookId: new ObjectId(bookID)})
+  if(data){
+    const result=await databaseProject.comment.updateOne({bookId:new ObjectId(bookID)},{$set:{...body}})
+    
+    return res.json(result)
+  }
+  else{
+    try {
+
+      const result=await databaseProject.comment.insertOne({...body})
+      
+      return res.json(result)
+    } catch (error) {
+      return next(error)
+    }
+  }
+  
+}

@@ -35,9 +35,9 @@ export const userValidator = async (req, res, next) => {
       // else{
       //   return res.json("fail")
       // }
-      console.log("userUnit",userUnit);
+      
       const result= await databaseProject.users.findOne({email:userUnit.email});
-      console.log(result);
+      
       // req.userEmail=userUnit.email;
       // req.decode=result
       if(result){

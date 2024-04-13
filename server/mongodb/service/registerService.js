@@ -22,7 +22,7 @@ class UserService {
               birthday:"--",
               sex:"",
               role:payload.role||"",
-              verifyToken:"Waiting",
+              verifyToken:"chưa xác thực",
               forgetToken:""
             })
           );
@@ -38,7 +38,7 @@ class UserService {
     try {
       const accessToken = await registerService.register(req.body);
       return res.json({
-        message: 'Register successfully',
+        message: 'Đăng ký thành công',
         
     })
     } catch (error) {

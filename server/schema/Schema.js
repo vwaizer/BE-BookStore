@@ -1,4 +1,4 @@
-import { ObjectId } from "bson";
+import { ObjectId } from "mongodb";
 
 export class User {
   constructor(user) {
@@ -11,18 +11,17 @@ export class User {
       (this.role=user.role || "user"),
       (this.avatar= user.avatar||""),
       this.verifyToken=user.verifyToken,
-      this.address=user.address || [""]
+      this.address=user.address || []
   }
 }
 export class Books {
   constructor(book) {
     (this.name = book.name),
       (this.author = book.author),
-     
       (this.type = book.type),
       (this.publisher = book.publisher||""),
       (this.amount = book.amount),
-           (this.images = [book.images]||[""]),
+           (this.images = [...book.images]||[""]),
       (this.price = book.price),
       (this.description = book.description||""),
       (this.status = book.status||""),
@@ -34,9 +33,9 @@ export class Comment {
   constructor(comment) {
     (this.userId = new ObjectId(comment.userId)),
       (this.bookId = new ObjectId(comment.bookId)),
-      (this.content = comment.content),
+      
       (this.rate = comment.rate),
-      (this.date = new Date(comment.date));
+      (this.date = new Date());
   }
 }
 export class ImportedBook {
@@ -44,7 +43,7 @@ export class ImportedBook {
     (this.staffID = new ObjectId (book.staffID)),
       (this.dateIn = new Date()),
       (this.book = book.book),
-      (this.status="Waiting: Admin")
+      (this.status="Đợi Admin")
       
   }
 }

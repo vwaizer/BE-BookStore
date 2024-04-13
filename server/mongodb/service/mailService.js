@@ -106,12 +106,50 @@ export const verifyEmail=async(req,res,next)=>{
     return res.json(err)
   }
 }
+export const sentRentMail=async(req,res,next)=>{
+  const userID=req.userID
+  const bookID=req.params.ID;
+  try{
+    
+    console.log(process.env.PASS_EMAIL);
+    const caseData=await databaseProject.users.findOne({_id:new ObjectId(userID)})
+    const bookData=await databaseProject.book.findOne({_id:new ObjectId(bookID)})
+    Promise.all(
+     [caseData,bookData]
+    ).then((value)=>console.log("value",value))
+    
 
+    if(caseData){
+      
+     const userMail=caseData.email;
+     const template= fs.readFileSync(path.resolve('mailTemplate/rentTemplate.html'),"utf-8").replace("{{bookName}}",bookData.name).replace("{{image}}",bookData.images[0]).replace("{{time}}",req.body.time)
+     
+     const sentMail={
+         from:"lightwing2208@gmail.com",
+         to:userMail,
+         subject:"Announcement",
+         html:template
+     }
+     contractMail.sendMail(sentMail,(error)=>{
+         if(error){
+            return res.json(error.message);
+         }
+         else{
+            return res.json("sent")
+         }
+     })
+    }
+    
+  }
+  catch(err){
+    return res.json(err)
+  }
+}
 
 export const checkedEmail=async(req,res,next)=>{
    const userID=req.params.id;
    try {
-    const result= await databaseProject.users.updateOne({_id:new ObjectId(userID)},{$set:{verifyToken:"verified"}})
+    const result= await databaseProject.users.updateOne({_id:new ObjectId(userID)},{$set:{verifyToken:"Đã xác thực"}})
     return res.json(result)
 
    } catch (error) {
