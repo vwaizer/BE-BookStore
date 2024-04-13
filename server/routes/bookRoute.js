@@ -9,9 +9,9 @@ bookRoute.get("/" ,getFilterBook);
 bookRoute.get("/detailBook/:ID",userValidator,getDetailBook);
 bookRoute.post("/",addBook);
 bookRoute.delete("/:ID",deleteBook);
-bookRoute.get("/types",userValidator,getAllTypes)
-bookRoute.get("/publisher",userValidator,getAllPublisher)
-bookRoute.get("/author",userValidator,getAllAuthor)
+bookRoute.get("/types",getAllTypes)
+bookRoute.get("/publisher",getAllPublisher)
+bookRoute.get("/author",getAllAuthor)
 bookRoute.post("/hiredBook",userValidator,postHiredBook)
 bookRoute.get("/field",getField)
 bookRoute.post("/setComment/:ID",userValidator,setComment)
