@@ -84,7 +84,7 @@ export const staffValidator = async (req, res, next) => {
   // req.decode=result
   if(result.length>0){
     if(result.role=="staff" || result.role=="admin"){
-      req.staffID=result._id.valueOf()
+      // req.staffID=result._id.valueOf()
       return next();
     }
     else{
