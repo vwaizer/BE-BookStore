@@ -35,27 +35,30 @@ export const userValidator = async (req, res, next) => {
       // else{
       //   return res.json("fail")
       // }
-      
-      const result= await databaseProject.users.findOne({email:userUnit.email});
+      if(userUnit){
+        const result= await databaseProject.users.findOne({email:userUnit.email});
+        if(result){
+          // if(result.role=="user"){
+          //   console.log(result._id.valueOf());
+          //   req.userID=result._id.valueOf()
+          //   return next();
+          // }
+          // else{
+          //   throw new Error("You do not have permission")
+          // }
+          console.log(result._id.valueOf());
+           req.userID=result._id.valueOf()
+          return next();}
+  
+          else{
+            throw new Error("Access token is wrong")
+          }
+      }
+     
       
       // req.userEmail=userUnit.email;
       // req.decode=result
-      if(result){
-        // if(result.role=="user"){
-        //   console.log(result._id.valueOf());
-        //   req.userID=result._id.valueOf()
-        //   return next();
-        // }
-        // else{
-        //   throw new Error("You do not have permission")
-        // }
-        console.log(result._id.valueOf());
-         req.userID=result._id.valueOf()
-        return next();}
-
-        else{
-          throw new Error("Access token is wrong")
-        }
+     
     }
    
 }
