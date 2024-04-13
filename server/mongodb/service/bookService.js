@@ -235,12 +235,12 @@ export const getAllAuthor = async (req, res) => {
 export const postHiredBook = async (req, res) => {
   const userID = req.userID.valueOf();
   console.log(req.body);
-  const userHiredBook=await databaseProject.hiredBook.findOne({userID:userID})
+  const userHiredBook=await databaseProject.hiredBook.findOne({userID:userID,status:"Đợi xét duyệt"})
   if(userHiredBook){
     return res.status(204).json("")
   }
   else{
-    const hiredBook = new HiredBook({ ...req.body, userID: userID, status: "Step 1" });
+    const hiredBook = new HiredBook({ ...req.body, userID: userID, status: "Đợi xét duyệt" });
     const result = await databaseProject.hiredBook.insertOne(hiredBook);
     return res.json(result);
   }
