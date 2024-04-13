@@ -49,7 +49,7 @@ const getAssetInfoSub=async(publicId)=>{
     })
     console.log(imgList);
   
-    const result = imgList 
+    const result = [...imgList] 
    
     return result
   } catch (error) {
