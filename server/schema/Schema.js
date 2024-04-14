@@ -6,7 +6,7 @@ export class User {
       (this.email = user.email),
       (this.sex = user.sex || ""),
       (this.password = user.password|| ""),
-      (this.birthday = user.birthday?new Date(user.birthday):"" ),
+      (this.birthday = user.birthday?new Date(user.birthday):new Date() ),
       (this.phone = user.phone|| ""),
       (this.role=user.role || "user"),
       (this.avatar= user.avatar||""),

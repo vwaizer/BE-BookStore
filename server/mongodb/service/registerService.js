@@ -19,10 +19,9 @@ class UserService {
               fullName:"",
               email:payload.email,
               gender:"other",
-              birthday:"--",
               sex:"",
               role:payload.role||"",
-              verifyToken:"chưa xác thực",
+              verifyToken:"Chưa xác thực",
               forgetToken:""
             })
           );
