@@ -332,8 +332,8 @@ export const setPayment=async(req,res,next)=>{
                 quantity: item.amount
             }
         }),
-        success_url: 'https://bookstorelv4.vercel.app/nha-sach',
-        cancel_url: 'https://bookstorelv4.vercel.app/thanh-toan'
+        success_url: 'https://bookstorelv4.vercel.app/success',
+        cancel_url: 'https://bookstorelv4.vercel.app/cancel'
     })
 
     res.json({url: session.url})
