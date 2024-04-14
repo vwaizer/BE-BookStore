@@ -99,12 +99,12 @@ export const loginValidator = validator(
             });
 
             if (isUserExist) {
-              // if(isUserExist.verifyToken == "Đã xác thực"){
-              //   return true;
-              // } 
-              // else{
-              //   throw new Error("Email chưa xác thực")
-              // }
+              if(isUserExist.verifyToken == "Đã xác thực"){
+                return true;
+              } 
+              else{
+               throw new Error("Email chưa xác thực")
+               }
               
               return true
             } else {
