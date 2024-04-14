@@ -315,11 +315,13 @@ console.log("oldCart",oldCart);
 export const setPayment=async(req,res,next)=>{
   const stripe=stripePackage(process.env.STRIPE_SECRET_KEY)
   console.log(stripe);
+  // const caseItem=req.body.caseID;
+  const formatData=[...req.body.items,{name:"ship",price:19,amount:1}]
   try{
     const session = await stripe.checkout.sessions.create({
         payment_method_types:["card"],
         mode:"payment",
-        line_items: req.body.items.map(item => {
+        line_items: formatData.map(item => {
             return{
                 price_data:{
                     currency:"vnd",
@@ -332,10 +334,10 @@ export const setPayment=async(req,res,next)=>{
                 quantity: item.amount
             }
         }),
-        success_url: 'https://bookstorelv4.vercel.app/success',
+        success_url: 'https://bookstorelv4.vercel.app/success/',
         cancel_url: 'https://bookstorelv4.vercel.app/cancel'
     })
-
+    console.log(session);
     res.json({url: session.url})
 
 }catch(e){
