@@ -8,7 +8,7 @@ export const checkToken=(privateKey,token)=>{
         if(err){
           throw reject(err)
         }
-        resolve(token);
+         resolve(token);  
           
       });
       
