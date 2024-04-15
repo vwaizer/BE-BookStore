@@ -18,7 +18,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(morgan("combined"));
 
-app.use(cors({origin:"https://bookstorelv4.vercel.app"}));
+app.use(cors({origin:"*"}));
 
 app.use("/book", bookRoute);
 app.use("/user", userRoute);
