@@ -6,7 +6,7 @@ export const checkToken=(privateKey,token)=>{
     return new Promise( (resolve,reject)=>{
       jwt.verify(token,privateKey,(err,token)=>{
         if(err){
-          reject(err.message)
+          //reject(err.message)
         }
         resolve(token);
           
