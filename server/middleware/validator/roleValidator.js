@@ -3,10 +3,10 @@ import databaseProject from "../../mongodb/GetDataBase.js";
 ;
 const privateKey=process.env.PRIVATE_KEY;
 export const checkToken=(privateKey,token)=>{
-    return new Promise((resolve,reject)=>{
-      const decode=jwt.verify(token,privateKey,(err,token)=>{
+    return new Promise( (resolve,reject)=>{
+      jwt.verify(token,privateKey,(err,token)=>{
         if(err){
-         reject(err.message)
+          reject(err.message)
         }
         resolve(token);
           
