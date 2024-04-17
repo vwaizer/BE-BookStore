@@ -21,13 +21,15 @@ export const createAccessToken = (user) => {
 };
 
 export const verifyToken = (token) => {
+  if(token){
   return new Promise((resolve, reject) => {
     jwt.verify(token, key, (err, decoded) => {
       if (err) {
         const errorMessage = err.message || "Invalid token";
-        reject(errorMessage);
+         throw reject(errorMessage);
       }
       resolve(decoded);
     });
-  });
+  });}
+  else return {err:"error"}
 };
