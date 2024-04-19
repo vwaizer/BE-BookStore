@@ -3,7 +3,8 @@ import databaseProject from "../../mongodb/GetDataBase.js";
 ;
 const privateKey=process.env.PRIVATE_KEY;
 export const checkToken=(privateKey,token)=>{
-    if(token != "undefined" || token != "null"){
+  console.log(token,"token",token !== undefined);
+    if(token !== undefined){
          return new Promise( (resolve,reject)=>{
       jwt.verify(token,privateKey,(err,token)=>{
         if(err){
@@ -15,7 +16,9 @@ export const checkToken=(privateKey,token)=>{
       
     })
     }
-    else return {err:"error checkToken"}
+    else {
+      console.log("erroe Token");
+      return {err:"error checkToken"}}
    
   }
 
@@ -55,7 +58,8 @@ export const userValidator = async (req, res, next) => {
           return next();}
   
           else{
-            throw new Error("Access token is wrong")
+            return res.json({err:"Access token is wrong"})
+            
           }
       }
      

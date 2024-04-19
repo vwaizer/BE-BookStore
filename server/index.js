@@ -18,7 +18,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(morgan("combined"));
 
-app.use(cors({origin:"*"}));
+app.use(cors());
 
 app.use("/book", bookRoute);
 app.use("/user", userRoute);

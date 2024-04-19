@@ -10,7 +10,7 @@ export const   createTokenLogin =  (data,privateKey) =>  {
       { expiresIn: "1h" },
       (err, token) => {
         if (err) {
-          throw reject(err.message)
+          reject(err.message)
         }
         resolve(token);
       }

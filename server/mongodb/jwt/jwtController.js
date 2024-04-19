@@ -21,7 +21,8 @@ export const createAccessToken = (user) => {
 };
 
 export const verifyToken = (token) => {
-  if(token != "undefined" || token != "null"){
+  console.log(token);
+  if(token != "undefined" && token != "null"){
   return new Promise((resolve, reject) => {
     jwt.verify(token, key, (err, decoded) => {
       if (err) {
